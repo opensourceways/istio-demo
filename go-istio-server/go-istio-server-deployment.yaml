@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-istio-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-istio-server
+  template:
+    metadata:
+      labels:
+        app: go-istio-server
+    spec:
+      containers:
+        - name: go-istio-server
+          image: go-istio-server:20250109v1
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-istio-server
+spec:
+  selector:
+    app: go-istio-server
+  ports:
+    - protocol: TCP
+      port: 30001
+      targetPort: 8080
+  type: LoadBalancer

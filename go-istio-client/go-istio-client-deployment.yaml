@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-istio-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-istio-client
+  template:
+    metadata:
+      labels:
+        app: go-istio-client
+    spec:
+      containers:
+        - name: go-istio-client
+          image: go-istio-client:20250109v3
+          ports:
+            - containerPort: 8081
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-istio-client
+spec:
+  selector:
+    app: go-istio-client
+  ports:
+    - protocol: TCP
+      port: 30002
+      targetPort: 8081
+  type: LoadBalancer
