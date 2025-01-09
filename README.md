@@ -531,4 +531,4 @@ http://localhost:30003/hello-go-server
 
 http://localhost:20001/ 可以看到服务的调用拓扑图
 
-![image-20250109171154930](/Users/shishupei/Library/Application Support/typora-user-images/image-20250109171154930.png)
+![kiali](images/kiali.png)
