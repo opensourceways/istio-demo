@@ -19,7 +19,7 @@ public class HelloController {
     @GetMapping("/hello-go-server")
     public String callGoIstioHello() {
         // 通过 Kubernetes 服务名称访问 go-istio-server 的 hello API
-        String goIstioUrl = "http://go-istio-server.default.svc.cluster.local:30001/hello";
+        String goIstioUrl = "http://go-istio-server.default.svc.cluster.local/hello";
         return restTemplate.getForObject(goIstioUrl, String.class);
     }
 }

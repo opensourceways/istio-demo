@@ -24,7 +24,7 @@ func main() {
 
 func goHelloHandler(w http.ResponseWriter, r *http.Request) {
 	// go-client-server 的 URL
-	url := "http://go-istio-client.default.svc.cluster.local:30002/hello-java"
+	url := "http://go-istio-client.default.svc.cluster.local/hello-java"
 
 	// 发送 GET 请求到 go-client-server 的接口
 	resp, err := http.Get(url)

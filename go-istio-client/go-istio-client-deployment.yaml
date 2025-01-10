@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: go-istio-client
-          image: go-istio-client:20250109v3
+          image: go-istio-client:20250110v2
           ports:
             - containerPort: 8081
 
@@ -30,4 +30,9 @@ spec:
     - protocol: TCP
       port: 30002
       targetPort: 8081
+      name: external-port
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      name: http-port
   type: LoadBalancer

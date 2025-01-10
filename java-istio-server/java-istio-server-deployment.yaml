@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: java-istio-server
-          image: java-istio-server:20250109
+          image: java-istio-server:20250110v1
           ports:
             - containerPort: 8083
 
@@ -30,4 +30,9 @@ spec:
     - protocol: TCP
       port: 30003
       targetPort: 8083
+      name: external-port
+    - protocol: TCP
+      port: 80
+      targetPort: 8083
+      name: http-port
   type: LoadBalancer
