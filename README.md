@@ -388,6 +388,64 @@ bash
 kubectl label namespace default istio-injection=enabled
 ```
 
+在 Istio 中，sidecar 注入是指在每个服务的 Pod 中自动注入一个 Istio sidecar 容器，通常是 Envoy 代理，用于处理流量的代理、负载均衡、监控、日志、路由等功能。sidecar 注入可以通过手动或自动注入实现。
+
+如果你提到的 “注入sidebar” 是指 sidecar 容器的注入，以下是如何操作 Istio 中的 sidecar 注入的相关内容：
+
+1. 自动注入 Sidecar
+   Istio 提供了自动注入功能，可以在创建 Pod 时自动注入 Envoy 代理。
+
+步骤 1：启用自动注入
+在 Istio 中启用命名空间的自动注入：
+
+bash
+复制代码
+kubectl label namespace <namespace> istio-injection=enabled
+例如，如果你的服务运行在 default 命名空间，使用以下命令：
+
+bash
+复制代码
+kubectl label namespace default istio-injection=enabled
+这将会启用该命名空间中所有 Pod 的 sidecar 自动注入。
+
+步骤 2：验证 Sidecar 注入
+创建一个简单的 Pod，例如：
+
+bash
+复制代码
+kubectl run myapp --image=nginx --namespace=default
+然后检查该 Pod 是否成功注入了 sidecar：
+
+bash
+复制代码
+kubectl get pods -n default
+如果 sidecar 被正确注入，你会看到类似以下输出：
+
+bash
+复制代码
+NAME                          READY   STATUS    RESTARTS   AGE
+myapp-xxxxxx-xxxxxx           2/2     Running   0          5m
+这里的 2/2 表示 Pod 中有两个容器：一个是你的应用容器，另一个是注入的 Envoy sidecar。
+
+2. 手动注入 Sidecar
+   如果你希望手动控制是否注入 sidecar，可以使用 istioctl kube-inject 命令手动将 Istio sidecar 配置注入到 Kubernetes 配置文件中。
+
+步骤 1：使用 istioctl kube-inject 手动注入
+获取你应用的部署配置，并通过 istioctl kube-inject 命令进行注入：
+
+bash
+复制代码
+kubectl get deployment <your-deployment> -n <namespace> -o yaml | istioctl kube-inject -f - | kubectl apply -f -
+这会自动将 Istio sidecar 注入到你的应用 Pod 中。
+
+步骤 2：检查 Sidecar 是否注入成功
+确认 sidecar 是否成功注入：
+
+bash
+复制代码
+kubectl get pods -n <namespace>
+应该看到你的 Pod 状态是 2/2，即 Pod 中包含了两个容器，一个是你的应用容器，一个是注入的 Envoy sidecar。
+
 #### 步骤6:安装kiali
 
 Kiali 是一个开源的 Istio 服务网格监控和可视化工具，它为 Istio 提供了图形化的界面，帮助你更好地理解和管理 Istio 服务网格的流量、健康状态和配置。
